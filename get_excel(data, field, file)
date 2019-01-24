@@ -1,0 +1,21 @@
+def get_excel(data, field, file):
+    # 将数据和字段名写入excel的函数
+    #新建一个工作薄对象
+    new = openpyxl.Workbook()
+    #激活一个新的sheet
+    sheet = new.active
+    #给sheet命名
+    sheet.title = '数据展示'
+    #将字段名称循环写入excel第一行，因为字段格式列表里包含列表，每个列表的第一元素才是字段名称
+    for col in range(len(field)):
+        #row代表行数，column代表列数，value代表单元格输入的值，行数和列数都是从1开始，这点于python不同要注意
+        _ = sheet.cell(row=1, column=col+1, value=u'%s' % field[col][0])
+     #将数据循环写入excel的每个单元格中   
+    for row in range(len(data)):
+        for col in range(len(field)):
+            #因为第一行写了字段名称，所以要从第二行开始写入
+            _ = sheet.cell(row=row+2, column=col + 1, value=u'%s' % data[row][col])
+            #将生成的excel保存，这步是必不可少的
+    newworkbook = new.save(file)
+    #返回生成的excel
+    return newworkbook
