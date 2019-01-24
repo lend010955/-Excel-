@@ -1,0 +1,15 @@
+def get_datas(sql):
+    # 一个传入sql导出数据的函数
+    # 跟数据库建立连接
+    conn = pms.connect(host='实例地址', user='用户',
+                       passwd='密码', database='库名', port=3306, charset="utf8")
+    # 使用 cursor() 方法创建一个游标对象 cursor
+    cur = conn.cursor()
+    # 使用 execute() 方法执行 SQL
+    cur.execute(sql)
+    # 获取所需要的数据
+    datas = cur.fetchall()
+    #关闭连接
+    cur.close()
+    #返回所需的数据
+    return datas
