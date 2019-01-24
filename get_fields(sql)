@@ -1,0 +1,10 @@
+def get_fields(sql):
+    # 一个传入sql导出字段的函数
+    conn = pms.connect(host='数据库实例地址', user='账号',
+                       passwd='密码', database=库名', port=3306, charset="utf8")
+    cur = conn.cursor()
+    cur.execute(sql)
+    # 获取所需要的字段名称
+    fields = cur.description
+    cur.close()
+    return fields
