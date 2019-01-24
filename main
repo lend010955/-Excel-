@@ -1,0 +1,45 @@
+def main():
+    print(datetime.datetime.now())
+    my_sql = sql = "SELECT a.id '用户ID',\
+           a.gmtCreate '用户注册时间',\
+           af.lastLoginTime '最后登录时间',\
+           af.totalBuyCount '历史付款子单数',\
+           af.paidmountUSD '历史付款金额',\
+           af.lastPayTime '用户最后支付时间'\
+          FROM table a\
+      LEFT JOIN tableb af ON a.id= af.accountId ;"
+    # 生成数据
+    my_data = get_datas(my_sql)
+    # 生成字段名称
+    my_field = get_fields(my_sql)
+    # 得到昨天的日期
+    yesterdaystr = getYesterday()
+    # 文件名称
+    my_file_name = 'user attribute' + yesterdaystr + '.xlsx'
+    # 文件路径
+    file_path = 'D:/work/report/' + my_file_name
+    # 生成excel
+    get_excel(my_data, my_field, file_path)
+
+    my_email_from = 'BI部门自动报表机器人'
+    my_email_to = '运营部'
+    # 邮件标题
+    my_email_Subject = 'user' + yesterdaystr
+    # 邮件正文
+    my_email_text = "Dear all,\n\t附件为每周数据，请查收！\n\nBI团队 "
+    #附件地址
+    my_annex_path = file_path
+    #附件名称
+    my_annex_name = my_file_name
+    # 生成邮件
+    my_msg = create_email(my_email_from, my_email_to, my_email_Subject,
+                          my_email_text, my_annex_path, my_annex_name)
+    my_sender = '阿里云邮箱'
+    my_password = '我的密码'
+    my_receiver = [10001@qq.com']#接收人邮箱列表
+    # 发送邮件
+    send_email(my_sender, my_password, my_receiver, my_msg)
+    print(datetime.datetime.now())
+
+if __name__ == "__main__":
+    main();
